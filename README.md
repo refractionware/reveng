@@ -4,7 +4,7 @@ This repository contains scripts that I use to figure stuff out while mainlining
 
 ## Register dumping
 
-* `libdump` - Python library for parsing reg/val dumps in the [dump format)(#dump-format)
+* `libdump` - Python library for parsing reg/val dumps in the [dump format](#dump-format)
 * `tools/devmem-read-block.sh` - Bash script to automate dumping an entire MMIO block with `devmem2`.
 * `tools/i2c-read-block.sh` - Bash script to automate dumping all bytes from an I2C device with `i2cget`; requires `i2c-tools`.
 * `generate-dump-diff.py` - Python script, creates a HTML diff of two register dumps. Requires `jinja2`.

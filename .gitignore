@@ -1,0 +1,7 @@
+dumps/
+generated-dumps/
+venv/
+.venv/
+
+__pycache__/
+*.pyc

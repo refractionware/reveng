@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Generated dump diff for {{ foo.filename }} vs {{ bar.filename }}</title>
+	<style>
+	* { box-sizing: border-box; }
+	body { margin: 24px; margin-top: 4px; font-family: monospace; background-color: #111; color: #fff; font-size: 14px; width: max-content; padding-right: 24px; }
+	table { border-collapse: separate; border-spacing: 0px 4px; }
+	thead { font-weight: bold; background-color: #333; }
+	td { border: 1px #222 solid; padding: 4px 10px; margin: 0; }
+	td:has(.valdiff) { padding: 0; }
+	tbody tr { background-color: #0f0f0f; }
+	tbody tr:nth-child(2n), tbody tr:nth-child(4n) { background-color: #141414; }
+	.col { color: var(--color); }
+	.diffed { font-weight: bold; background-color: rgb(from var(--color) r g b / 0.1); }
+	.num { padding: 4px 2px; display: inline-block; font-size: 18px; }
+	.num:not(:last-child):nth-child(2n-1) { border-right: 1px rgba(255, 255, 255, 0.05) solid; }
+	.num:not(:last-child):nth-child(2n) { border-right: 1px rgba(255, 255, 255, 0.17) solid; }
+	.num:not(:last-child):nth-child(8n) { border-right: 2px rgba(255, 255, 255, 0.2) solid; padding-right: 4px; }
+	.num:not(:last-child):nth-child(8n+1) { padding-left: 4px; }
+	.num:hover { filter: brightness(1.5); backdrop-filter: brightness(0.8); cursor: default; }
+
+	/* BEHOLD: world's greatest css trick */
+	{% for i in range(1, 33) %}
+	.col:has(.num:nth-child({{i}}):hover) + .col .num:nth-child({{i}}) { filter: brightness(1.5); backdrop-filter: brightness(0.8); }
+	.col:has(+ .col .num:nth-child({{i}}):hover) .num:nth-child({{i}}) { filter: brightness(1.5); backdrop-filter: brightness(0.8); }
+	{% endfor %}
+
+	.valdiff > div:not(:has(.num)) { padding: 4px 10px; padding-top: 4px; vertical-align: middle; }
+	.valdiff > :first-child { border-bottom: 1px #222 solid; }
+
+	</style>
+</head>
+
+{%- macro generate_hex(str1, str2) -%}
+	{%- for s1_char in str1 -%}
+		<span {%- if s1_char != str2[loop.index0] -%}class="diffed"{%- endif -%} title="{{loop.length - loop.index0 - 1}}">{{ s1_char }}</span>
+	{%- endfor -%}
+{%- endmacro -%}
+
+{%- macro generate_bin(str1, str2, addr, doc) -%}
+	{%- for s1_char in str1 -%}{%- set bin_i = loop.length - loop.index0 - 1 -%}
+		<span class="num {% if s1_char != str2[loop.index0] -%}diffed{%- endif -%}" title="{{bin_i}} ({% if doc[addr] and doc[addr][bin_i] %}{{doc[addr][bin_i].name}}, {{doc[addr][bin_i].end_bit}}{% if doc[addr][bin_i].start_bit != doc[addr][bin_i].end_bit %}-{{doc[addr][bin_i].start_bit}}{% endif %}){% else %}unknown{% endif %})">{{ s1_char }}</span>
+	{%- endfor -%}
+{%- endmacro -%}
+
+{%- macro string_is_diff(str1, str2) %}
+	{%- for s1_char in str1 -%}
+		{% if s1_char != str2[loop.index0] -%}y{%- endif -%}
+	{%- endfor -%}
+{% endmacro %}
+<body>
+	<h1>Generated dump diff for {{ foo.filename }} vs {{ bar.filename }}</h1>
+
+	<table>
+		<thead>
+			<tr>
+				<td>Address</td>
+				<td>Name</td>
+				<td>Values (hex)</td>
+				<td>Values (binary)</td>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% set size = foo.size %}
+			{% for i in range(0, size+1, 4) if foo.data[foo.base_addr + i] != -1 and bar.data[foo.base_addr + i] != -1 %}
+				{% set addr = foo.base_addr + i %}
+				{% if foo.data[addr] != -1 %}{% set str1 = '{:b}'.format(foo.data[addr]).zfill(val_bits) %}{% else %}{% set str1 = "-" * val_bits %}{% endif %}
+				{% if bar.data[addr] != -1 %}{% set str2 = '{:b}'.format(bar.data[addr]).zfill(val_bits) %}{% else %}{% set str2 = "-" * val_bits %}{% endif %}
+				{% if foo.data[addr] != -1 %}{% set str1_hex = ('%0' ~ (val_bits // 4) ~ 'x') % foo.data[addr] %}{% else %}{% set str1_hex = "-" * (val_bits // 4) %}{% endif %}
+				{% if bar.data[addr] != -1 %}{% set str2_hex = ('%0' ~ (val_bits // 4) ~ 'x') % bar.data[addr] %}{% else %}{% set str2_hex = "-" * (val_bits // 4) %}{% endif %}
+
+				{% if string_is_diff(str1, str2) %}{% set col1 = "#f38181" %}{% set col2 = "#a7ffea" %}{% else %}{% set col1 = "#787878" %}{% set col2 = "#7a7a7a" %}{% endif %}
+				<tr>
+					<td>{{ '0x%0x' % addr }}</td>
+					<td>{% if doc and doc[addr - foo.base_addr] %}{{doc[addr - foo.base_addr].name}}{% else %}(unknown){% endif %}</td>
+					<td>
+						<div class="valdiff">
+							<div style="--color: {{col1}};" class="col">0x{{ generate_hex(str1_hex, str2_hex) }}</div>
+							<div style="--color: {{col2}};" class="col">0x{{ generate_hex(str2_hex, str1_hex) }}</div>
+						</div>
+					</td>
+					<td>
+						<div class="valdiff">
+							<div style="--color: {{col1}};" class="col">{{ generate_bin(str1, str2, addr - foo.base_addr, doc) }}</div>
+							<div style="--color: {{col2}};" class="col">{{ generate_bin(str2, str1, addr - foo.base_addr, doc) }}</div>
+						</div>
+					</td>
+				</tr>
+
+			{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>

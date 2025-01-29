@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: MIT
 
 from dataclasses import dataclass
-
+from functools import cached_property
+import os
 
 @dataclass(slots=True)
 class DocAddrRange:
@@ -19,6 +20,9 @@ class DocAddrRange:
     @classmethod
     def from_mask(cls, mask, name):
         """Create AddrDocEntry from mask. Assumes mask to be continuous."""
+        if mask < 0:
+            raise ValueError("Mask must be > 0")
+
         n = 0
         while mask & 1 != 1:
             mask >>= 1
@@ -112,3 +116,137 @@ class Doc:
                f"- {hex(self.base_addr + self.size)} " \
                f"(size {hex(self.size)}), " \
                f"{len(self.addresses)} addresses>"
+
+
+#
+# DFmt (doc format) support
+#
+
+
+class DFmtDoc(Doc):
+    """
+    Doc parser for the custom doc format.
+    """
+
+    def __init__(self, filename: str | os.PathLike):
+        """Initialize doc from path."""
+        self.filename = filename
+
+        with open(filename, "r") as dump_file:
+            #: Raw dump data as plaintext.
+            self.raw = dump_file.read()
+
+        self._check_validity()
+
+        super().__init__(
+            base_addr=self.header["base_addr"],
+            size=self.header["size"]
+        )
+
+        self._parse()
+
+    def _check_validity(self):
+        """Check if the current doc is valid."""
+        if self.header.get("fmt", "unknown") != "doc":
+            raise ValueError("\"fmt\" must be set to \"doc\"")
+        for key in "type", "base_addr", "size", "addr_bits", "val_bits":
+            if key not in self.header:
+                raise ValueError(f"missing key \"{key}\"")
+
+    @cached_property
+    def header(self) -> dict[str, str]:
+        """Header with information about the dump."""
+        out = {}
+        for line in self.raw.split("\n"):
+            if line == "--- header_end ---":
+                break
+            key, val = line.split(" ")
+            out[key] = val
+        return out
+
+    def _parse(self):
+        """Parse the loaded doc."""
+
+        # The format is as such:
+        #
+        # 0x00 NAME
+        #   b start_bit end_bit NAME
+        #
+        # A field can also be given a description by following it with a line
+        # starting with an exclamation mark (!).
+        #
+        # All byte (b) fields following an address field (0x...) are interpreted
+        # to be a part of the last found address field.
+        #
+        # Indentation can be introduced for easier reading, but is ignored by
+        # the parser.
+
+        current_addr = None
+
+        header_end = False
+        for line in self.raw.split("\n"):
+            if line == "--- header_end ---":
+                header_end = True
+                continue
+            if not header_end:
+                continue
+
+            line = line.strip()
+            if not line:
+                continue
+            split = line.split()
+
+            # First element is "b": byte
+            if split[0] == "b":
+                if current_addr is None:
+                    raise ValueError("bit data not preceeded by offset")
+
+                current_addr.add_range(DocAddrRange(
+                    start_bit=int(split[1]),
+                    end_bit=int(split[2]),
+                    name=' '.join(split[3:])
+                ))
+
+                continue
+
+            # First element is hex address: offset
+            try:
+                address = int(split[0], 16)
+            except ValueError:
+                # All other elements are ignored
+                continue
+
+            if current_addr:
+                self.add_addr(current_addr)
+
+            current_addr = DocAddr(address, name=' '.join(split[1:]))
+
+
+def doc_to_dfmt(doc: Doc, ftype: str, addr_bits: int = 32, val_bits: int = 32):
+    """
+    Convert a Doc object to a doc format dump.
+    """
+    out = "fmt doc\n"
+    out += f"type {ftype}\n"
+    out += f"base_addr {doc.base_addr}\n"
+    out += f"size {doc.size}\n"
+    out += f"addr_bits {addr_bits}\n"
+    out += f"val_bits {val_bits}\n"
+    out += "--- header_end ---\n"
+
+    for addr in sorted(doc.addresses, key=lambda a: a.addr):
+        out += f"{hex(addr.addr)} {addr.name}\n"
+        for range in sorted(addr.ranges, key=lambda r: r.start_bit):
+            out += "\n"
+            out += f"  b {range.start_bit} {range.end_bit} {range.name}\n"
+        out += "\n"
+
+    return out
+
+
+def doc_to_dfmt_file(doc: Doc, ftype: str, out_path: str, addr_bits: int = 32, val_bits: int = 32):
+    """
+    Wrapper for doc_to_dfmt that automatically dumps the doc to a file.
+    """
+    with open(out_path, "w") as out_file:
+        out_file.write(doc_to_dfmt(doc, ftype, addr_bits=addr_bits, val_bits=val_bits))

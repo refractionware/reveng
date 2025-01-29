@@ -9,7 +9,7 @@ if [ ! $I2C_BUS ] || [ ! $DEV_ADDR ]; then
         exit 1
 fi
 
-[ ! $SIZE ] && SIZE=0x7f
+[ ! $SIZE ] && SIZE=0xff
 
 echo "fmt dump"
 echo "type i2c"

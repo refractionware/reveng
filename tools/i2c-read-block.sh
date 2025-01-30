@@ -23,9 +23,9 @@ echo "--- header_end ---"
 
 for addr in $( seq 0 $((SIZE)) ); do
         printf "0x%X " $addr
-        val=$(i2cget -fy $I2C_BUS $DEV_ADDR $addr | tail -n1 | cut -d':' -f2)
+        val=$(i2cget -fy $I2C_BUS $DEV_ADDR $addr 2>&1 | tail -n1 | cut -d':' -f2)
         case $val in
-                *"error"*|*"busy"*) val="-";;
+                *"Error"*|*"error"*|*"busy"*|*"Read"*) val="-";;
         esac
         echo $val
 done

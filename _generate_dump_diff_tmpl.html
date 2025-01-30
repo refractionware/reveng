@@ -64,7 +64,7 @@
 
 		<tbody>
 			{% set size = foo.size %}
-			{% for i in range(0, size+1, 4) if foo.data[foo.base_addr + i] != -1 and bar.data[foo.base_addr + i] != -1 %}
+			{% for i in range(0, size+1, (addr_bits // 8)) if foo.data[foo.base_addr + i] != -1 and bar.data[foo.base_addr + i] != -1 %}
 				{% set addr = foo.base_addr + i %}
 				{% if foo.data[addr] != -1 %}{% set str1 = '{:b}'.format(foo.data[addr]).zfill(val_bits) %}{% else %}{% set str1 = "-" * val_bits %}{% endif %}
 				{% if bar.data[addr] != -1 %}{% set str2 = '{:b}'.format(bar.data[addr]).zfill(val_bits) %}{% else %}{% set str2 = "-" * val_bits %}{% endif %}

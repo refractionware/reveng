@@ -10,7 +10,7 @@ SYSMAP_DIR = RDB_DIR + "brcm_rdb_sysmap.h"
 # -- Argument parsing --
 argparser = argparse.ArgumentParser(
                     prog='generate-dump-diff.py',
-                    description='Generate a human-readable diff of two dumps')
+                    description='Generate commands for dumping diffed values')
 argparser.add_argument("foo", help="Dump of current state")
 argparser.add_argument("bar", help="Dump to replace the current state")
 args = argparser.parse_args()

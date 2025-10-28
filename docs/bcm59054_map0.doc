@@ -1,0 +1,1336 @@
+fmt doc
+type i2c
+base_addr 0
+size 241
+addr_bits 8
+val_bits 8
+--- header_end ---
+0x0 HOSTCTRL0
+
+0x1 HOSTCTRL1
+
+  b 2 2 SHDWN
+  ! Shutdown register. If set to 1, powers off the system.
+
+0x2 HOSTCTRL2
+
+0x3 HOSTCTRL3
+
+0x4 HOSTCTRL4
+
+  b 3 4 BB_SHDWN_DEB
+
+0x5 HOSTCTRL5
+
+0x6 HOSTCTRL6
+
+0x7 HOSTCTRL7
+
+  b 1 3 SW_RESTART_DLY
+
+0x8 PONKEYCTRL1
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/PONKEY
+
+  b 0 2 PRESS_DEB
+
+  b 3 5 RELEASE_DEB
+
+0x9 PONKEYCTRL2
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/PONKEY
+
+  b 0 2 PONKEY_T1_DEB
+
+  b 3 5 PONKEY_T1_DLY
+
+  b 6 7 PONKEY_T1_ACTION
+
+0xa PONKEYCTRL3
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/PONKEY
+
+  b 0 2 PONKEY_T2_DEB
+
+  b 3 5 PONKEY_T2_DLY
+
+  b 6 7 PONKEY_T2_ACTION
+
+0xb PONKEYCTRL4
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/PONKEY
+
+  b 0 2 POK_WAKUP_DEB
+
+  b 4 4 POK_RESTART_EN
+
+  b 5 5 KEY_PAD_LOCK
+
+  b 6 6 KEY_PAD_LOCK_MODE
+
+0xc PONKEYCTRL5
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/PONKEY
+
+0xd PONKEYCTRL6
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/PONKEY
+
+  b 0 0 PONKEY_SMART_RST_EN
+
+  b 1 1 PONKEY_SMART_RST_PWR_EN
+
+  b 2 2 PONKEY_SMART_RST_STATUS
+
+  b 3 4 PONKEY_SMART_RST_DLY
+
+0xe PONKEYCTRL7
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/PONKEY
+
+0xf PONKEYCTRL8
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/PONKEY
+
+  b 0 2 PONKEY_T3_DEB
+
+  b 3 5 PONKEY_T3_DLY
+
+  b 6 7 PONKEY_T3_ACTION
+
+0x10 I2CCTRL1
+
+  b 0 0 FIFOEMPTY
+
+  b 1 1 FIFOFULL
+
+0x11 I2CCTRL2
+
+  b 2 2 RDBLOCKEN
+
+0x12 I2CCTRL3
+
+0x13 I2CCTRL4
+
+0x14 GPIOCTRL1
+
+0x15 GPIOCTRL2
+
+0x16 GPIOCTRL3
+
+0x17 GPIOCTRL4
+
+0x18 WRLOCKKEY
+
+0x19 WRPROEN
+
+  b 0 0 DIS_WR_PRO
+
+  b 1 1 PMU_UNLOCK
+
+0x1a PLLPMCTRL
+
+0x1b PLLCTRL
+
+  b 1 1 PLLEN
+
+  b 2 2 ENCLK26M
+
+  b 5 5 AUDIO_EN
+
+0x1c PLLCTRL2
+
+0x1d PMUGID
+
+0x1e PMUID
+
+0x1f PMUREV
+
+0x20 INT1
+
+        b 1 1 IRQ_USBINS
+
+        b 2 2 IRQ_USBRM
+
+        b 3 3 IRQ_BATINS
+
+        b 4 4 IRQ_BATRM
+
+        b 5 5 IRQ_MBC_CV_LOOP
+
+        b 6 6 IRQ_MBC_CV_TMR_EXP
+
+        b 7 7 IRQ_EOC
+
+0x21 INT2
+
+        b 0 0 IRQ_RESUME_VBUS
+
+        b 1 1 IRQ_MBTEMPLOW
+
+        b 2 2 IRQ_MBTEMPHIGH
+
+        b 3 3 IRQ_USBOV
+
+        b 4 4 IRQ_MBOV
+
+        b 5 5 IRQ_CHGERRDIS
+
+        b 6 6 IRQ_MBOV_DIS
+
+        b 7 7 IRQ_USBOV_DIS
+
+0x22 INT3
+
+        b 0 0 IRQ_MBC_TF
+
+        b 1 1 IRQ_CHG_HW_TTR_EXP
+
+        b 2 2 IRQ_CHG_HW_TCH_EXP
+
+        b 3 3 IRQ_CHG_SW_TMR_EXP
+
+        b 4 4 IRQ_CHG_TCH_1MIN_BF_EXP
+
+        b 5 5 IRQ_USB_PORT_DIS
+
+        b 6 6 IRQ_USB_CC_REDUCE
+
+        b 7 7 IRQ_VBUSLOWBND
+
+0x23 INT4
+
+        b 0 0 IRQ_UBPD_CHG_F
+
+        b 1 1 IRQ_VBUS_VALID_F
+
+        b 2 2 IRQ_OTG_SESS_VALID_F
+
+        b 3 3 IRQ_VB_SESS_END_F
+
+        b 4 4 IRQ_ID_RM
+
+        b 5 5 IRQ_VBUS_VALID_R
+
+        b 6 6 IRQ_VA_SESS_VALID_R
+
+        b 7 7 IRQ_VB_SESS_END_R
+
+0x24 INT5
+
+        b 0 0 IRQ_ID_INS
+
+        b 1 1 IRQ_IDCHG
+
+        b 2 2 IRQ_RIC_C_TO_FLOAT
+
+        b 3 3 IRQ_CHGDET_LATCH
+
+        b 4 4 IRQ_CHGDET_TO
+
+        b 5 5 IRQ_ADP_CHANGE
+
+        b 6 6 IRQ_ADP_SNS_END
+
+        b 7 7 IRQ_ADP_PROB
+
+0x25 INT6
+
+        b 0 0 IRQ_ADP_PRB_ERR
+
+        b 1 1 IRQ_POK_PRESSED
+
+        b 2 2 IRQ_POK_RELEASED
+
+        b 3 3 IRQ_POK_WAKEUP
+
+        b 4 4 IRQ_POK_BIT_VLD
+
+        b 5 5 IRQ_POK_RESTART
+
+        b 6 6 IRQ_POK_T1
+
+        b 7 7 IRQ_POK_T2
+
+0x26 INT7
+
+        b 0 0 IRQ_POK_T3
+
+        b 1 1 IRQ_I2C_RESTART
+
+        b 2 2 IRQ_GBAT_PLUG_IN
+
+        b 3 3 IRQ_SMPL_INT
+
+        b 4 4 IRQ_AUX_INS
+
+        b 5 5 IRQ_AUX_RM
+
+        b 6 6 IRQ_XTAL_FAILURE
+
+        b 7 7 IRQ_MBWV_R_10S_WAIT
+
+0x27 INT8
+
+        b 0 0 IRQ_MBWV_F
+
+        b 1 1 IRQ_RTC_ALARM
+        ! Fires when the alarm value matches the current RTC time.
+        ! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+        b 2 2 IRQ_RTC_SEC
+        ! Fires when the value of seconds in the RTC reading changes.
+        ! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+        b 3 3 IRQ_RTC_MIN
+        ! Fires when the value of minutes in the RTC reading changes.
+        ! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+        b 4 4 IRQ_RTCADJ
+        ! Fires when the RTC value is detected to be invalid.
+        ! (At least presumably; haven't managed to get it to fire in my testing.)
+        ! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+        b 5 5 IRQ_FGC
+
+        b 6 6 IRQ_BBLOW
+
+        b 7 7 IRQ_DIE_OT_R
+
+0x28 INT9
+
+        b 0 0 IRQ_DIE_OT_F
+
+        b 1 1 IRQ_RTM_DATA_RDY
+        ! Indicates that an ADC RTM read has finished.
+        ! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC#RTM_%28Real-Time_Measurment%29
+
+        b 2 2 IRQ_RTM_IN_CON_MEAS
+        ! Also referred to as "DURING_CON_MEAS" or WHILE CONT.
+        ! Unclear what it does.
+        ! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC#RTM_%28Real-Time_Measurment%29
+
+        b 3 3 IRQ_RTM_UPPER
+        ! Upper bound IRQ for ADC RTM. Unclear what it does.
+        ! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC#RTM_%28Real-Time_Measurment%29
+
+        b 4 4 IRQ_RTM_IGNORE
+        ! Raised when RTM request was ignored due to upper bound.
+        ! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC#RTM_%28Real-Time_Measurment%29
+
+        b 5 5 IRQ_RTM_OVERRIDDEN
+        ! Raised when an ongoing RTM conversion is overriden.
+        ! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC#RTM_%28Real-Time_Measurment%29
+
+        b 6 6 IRQ_AUD_HSAB_SHCKT
+
+        b 7 7 IRQ_AUD_IHFD_SHCKT
+
+0x29 INT10
+
+        b 0 0 IRQ_POK_NOP
+
+        b 1 1 IRQ_MIPI_LEN_ERR
+
+        b 2 2 IRQ_MIPI_RCV_ERR
+
+        b 3 3 IRQ_MIPI_BUSQ_RESP
+
+        b 4 4 IRQ_MIPI_BUSQ_POS
+
+        b 5 5 IRQ_MIPI_EOT
+
+        b 6 6 IRQ_MIPI_XMT_END
+
+        b 7 7 IRQ_MIPI_INT_POS
+
+0x2a INT11
+
+        b 0 0 IRQ_LOWBAT
+
+        b 1 1 IRQ_CSROVRI
+
+        b 2 2 IRQ_VSROVRI
+
+        b 3 3 IRQ_MSROVRI
+
+        b 4 4 IRQ_SDSR1OVRI
+
+        b 5 5 IRQ_SDSR2OVRI
+
+        b 6 6 IRQ_IOSR1OVRI
+
+        b 7 7 IRQ_IOSR2OVRI
+
+0x2b INT12
+
+        b 0 0 IRQ_RESERVED
+
+        b 1 1 IRQ_RFLDO_OVRI
+
+        b 2 2 IRQ_AUDLDO_OVRI
+
+        b 3 3 IRQ_USBLDO_OVR
+
+        b 4 4 IRQ_SDXLDO_OVRI
+
+        b 5 5 IRQ_MICLDO_OVRI
+
+        b 6 6 IRQ_SIMLDO1_OVRI
+
+        b 7 7 IRQ_SIMLDO2_OVRI
+
+0x2c INT13
+
+        b 0 0 IRQ_MMCLDO1_OVRI
+
+        b 1 1 IRQ_CAMLDO1_OVRI
+
+        b 2 2 IRQ_CAMLDO2_OVRI
+
+        b 3 3 IRQ_VIBLDO_OVRI
+
+        b 4 4 IRQ_SDLDO_OVRI
+
+        b 5 5 IRQ_GPLDO1_OVRI
+
+        b 6 6 IRQ_GPLDO2_OVRI
+
+        b 7 7 IRQ_GPLDO3_OVRI
+
+0x2d INT14
+
+        b 0 0 IRQ_RFLDO_SHD
+
+        b 1 1 IRQ_AUDLDO_SHD
+
+        b 2 2 IRQ_USBLDO_SHD
+
+        b 3 3 IRQ_SDXLDO_SHD
+
+        b 4 4 IRQ_MICLDO_SHD
+
+        b 5 5 IRQ_SIMLDO1_SHD
+
+        b 6 6 IRQ_SIMLDO2_SHD
+
+        b 7 7 IRQ_MMCLDO1_SHD
+
+0x2e INT15
+
+        b 0 0 IRQ_MMCLDO2_SHD
+
+        b 1 1 IRQ_CAMLDO1_SHD
+
+        b 2 2 IRQ_CAMLDO2_SHD
+
+        b 3 3 IRQ_VIBLDO_SHD
+
+        b 4 4 IRQ_SDLDO_SHD
+
+        b 5 5 IRQ_GPLDO1_SHD
+
+        b 6 6 IRQ_GPLDO2_SHD
+
+        b 7 7 IRQ_GPLDO3_SHD
+
+0x2f INT16
+
+        b 0 0 IRQ_TCXLDO_OVRI
+
+        b 1 1 IRQ_LVLDO1_OVRI
+
+        b 2 2 IRQ_LVLDO2_OVRI
+
+        b 3 3 IRQ_TCXLDO_SHD
+
+        b 4 4 IRQ_LVLDO1_SHD
+
+        b 5 5 IRQ_LVLDO2_SHD
+
+        b 6 6 IRQ_VBOVRV
+
+        b 7 7 IRQ_VBOVRI
+
+0x30 INT1MSK
+
+        b 1 1 IRQ_USBINS_MSK
+        ! Interrupt mask for USBINS.
+
+        b 2 2 IRQ_USBRM_MSK
+        ! Interrupt mask for USBRM.
+
+        b 3 3 IRQ_BATINS_MSK
+        ! Interrupt mask for BATINS.
+
+        b 4 4 IRQ_BATRM_MSK
+        ! Interrupt mask for BATRM.
+
+        b 5 5 IRQ_MBC_CV_LOOP_MSK
+        ! Interrupt mask for MBC_CV_LOOP.
+
+        b 6 6 IRQ_MBC_CV_TMR_EXP_MSK
+        ! Interrupt mask for MBC_CV_TMR_EXP.
+
+        b 7 7 IRQ_EOC_MSK
+        ! Interrupt mask for EOC.
+
+0x31 INT2MSK
+
+        b 0 0 IRQ_RESUME_VBUS_MSK
+        ! Interrupt mask for RESUME_VBUS.
+
+        b 1 1 IRQ_MBTEMPLOW_MSK
+        ! Interrupt mask for MBTEMPLOW.
+
+        b 2 2 IRQ_MBTEMPHIGH_MSK
+        ! Interrupt mask for MBTEMPHIGH.
+
+        b 3 3 IRQ_USBOV_MSK
+        ! Interrupt mask for USBOV.
+
+        b 4 4 IRQ_MBOV_MSK
+        ! Interrupt mask for MBOV.
+
+        b 5 5 IRQ_CHGERRDIS_MSK
+        ! Interrupt mask for CHGERRDIS.
+
+        b 6 6 IRQ_MBOV_DIS_MSK
+        ! Interrupt mask for MBOV_DIS.
+
+        b 7 7 IRQ_USBOV_DIS_MSK
+        ! Interrupt mask for USBOV_DIS.
+
+0x32 INT3MSK
+
+        b 0 0 IRQ_MBC_TF_MSK
+        ! Interrupt mask for MBC_TF.
+
+        b 1 1 IRQ_CHG_HW_TTR_EXP_MSK
+        ! Interrupt mask for CHG_HW_TTR_EXP.
+
+        b 2 2 IRQ_CHG_HW_TCH_EXP_MSK
+        ! Interrupt mask for CHG_HW_TCH_EXP.
+
+        b 3 3 IRQ_CHG_SW_TMR_EXP_MSK
+        ! Interrupt mask for CHG_SW_TMR_EXP.
+
+        b 4 4 IRQ_CHG_TCH_1MIN_BF_EXP_MSK
+        ! Interrupt mask for CHG_TCH_1MIN_BF_EXP.
+
+        b 5 5 IRQ_USB_PORT_DIS_MSK
+        ! Interrupt mask for USB_PORT_DIS.
+
+        b 6 6 IRQ_USB_CC_REDUCE_MSK
+        ! Interrupt mask for USB_CC_REDUCE.
+
+        b 7 7 IRQ_VBUSLOWBND_MSK
+        ! Interrupt mask for VBUSLOWBND.
+
+0x33 INT4MSK
+
+        b 0 0 IRQ_UBPD_CHG_F_MSK
+        ! Interrupt mask for UBPD_CHG_F.
+
+        b 1 1 IRQ_VBUS_VALID_F_MSK
+        ! Interrupt mask for VBUS_VALID_F.
+
+        b 2 2 IRQ_OTG_SESS_VALID_F_MSK
+        ! Interrupt mask for OTG_SESS_VALID_F.
+
+        b 3 3 IRQ_VB_SESS_END_F_MSK
+        ! Interrupt mask for VB_SESS_END_F.
+
+        b 4 4 IRQ_ID_RM_MSK
+        ! Interrupt mask for ID_RM.
+
+        b 5 5 IRQ_VBUS_VALID_R_MSK
+        ! Interrupt mask for VBUS_VALID_R.
+
+        b 6 6 IRQ_VA_SESS_VALID_R_MSK
+        ! Interrupt mask for VA_SESS_VALID_R.
+
+        b 7 7 IRQ_VB_SESS_END_R_MSK
+        ! Interrupt mask for VB_SESS_END_R.
+
+0x34 INT5MSK
+
+        b 0 0 IRQ_ID_INS_MSK
+        ! Interrupt mask for ID_INS.
+
+        b 1 1 IRQ_IDCHG_MSK
+        ! Interrupt mask for IDCHG.
+
+        b 2 2 IRQ_RIC_C_TO_FLOAT_MSK
+        ! Interrupt mask for RIC_C_TO_FLOAT.
+
+        b 3 3 IRQ_CHGDET_LATCH_MSK
+        ! Interrupt mask for CHGDET_LATCH.
+
+        b 4 4 IRQ_CHGDET_TO_MSK
+        ! Interrupt mask for CHGDET_TO.
+
+        b 5 5 IRQ_ADP_CHANGE_MSK
+        ! Interrupt mask for ADP_CHANGE.
+
+        b 6 6 IRQ_ADP_SNS_END_MSK
+        ! Interrupt mask for ADP_SNS_END.
+
+        b 7 7 IRQ_ADP_PROB_MSK
+        ! Interrupt mask for ADP_PROB.
+
+0x35 INT6MSK
+
+        b 0 0 IRQ_ADP_PRB_ERR_MSK
+        ! Interrupt mask for ADP_PRB_ERR.
+
+        b 1 1 IRQ_POK_PRESSED_MSK
+        ! Interrupt mask for POK_PRESSED.
+
+        b 2 2 IRQ_POK_RELEASED_MSK
+        ! Interrupt mask for POK_RELEASED.
+
+        b 3 3 IRQ_POK_WAKEUP_MSK
+        ! Interrupt mask for POK_WAKEUP.
+
+        b 4 4 IRQ_POK_BIT_VLD_MSK
+        ! Interrupt mask for POK_BIT_VLD.
+
+        b 5 5 IRQ_POK_RESTART_MSK
+        ! Interrupt mask for POK_RESTART.
+
+        b 6 6 IRQ_POK_T1_MSK
+        ! Interrupt mask for POK_T1.
+
+        b 7 7 IRQ_POK_T2_MSK
+        ! Interrupt mask for POK_T2.
+
+0x36 INT7MSK
+
+        b 0 0 IRQ_POK_T3_MSK
+        ! Interrupt mask for POK_T3.
+
+        b 1 1 IRQ_I2C_RESTART_MSK
+        ! Interrupt mask for I2C_RESTART.
+
+        b 2 2 IRQ_GBAT_PLUG_IN_MSK
+        ! Interrupt mask for GBAT_PLUG_IN.
+
+        b 3 3 IRQ_SMPL_INT_MSK
+        ! Interrupt mask for SMPL_INT.
+
+        b 4 4 IRQ_AUX_INS_MSK
+        ! Interrupt mask for AUX_INS.
+
+        b 5 5 IRQ_AUX_RM_MSK
+        ! Interrupt mask for AUX_RM.
+
+        b 6 6 IRQ_XTAL_FAILURE_MSK
+        ! Interrupt mask for XTAL_FAILURE.
+
+        b 7 7 IRQ_MBWV_R_10S_WAIT_MSK
+        ! Interrupt mask for MBWV_R_10S_WAIT.
+
+0x37 INT8MSK
+
+        b 0 0 IRQ_MBWV_F_MSK
+        ! Interrupt mask for MBWV_F.
+
+        b 1 1 IRQ_RTC_ALARM_MSK
+        ! Interrupt mask for RTC_ALARM.
+
+        b 2 2 IRQ_RTC_SEC_MSK
+        ! Interrupt mask for RTC_SEC.
+
+        b 3 3 IRQ_RTC_MIN_MSK
+        ! Interrupt mask for RTC_MIN.
+
+        b 4 4 IRQ_RTCADJ_MSK
+        ! Interrupt mask for RTCADJ.
+
+        b 5 5 IRQ_FGC_MSK
+        ! Interrupt mask for FGC.
+
+        b 6 6 IRQ_BBLOW_MSK
+        ! Interrupt mask for BBLOW.
+
+        b 7 7 IRQ_DIE_OT_R_MSK
+        ! Interrupt mask for DIE_OT_R.
+
+0x38 INT9MSK
+
+        b 0 0 IRQ_DIE_OT_F_MSK
+        ! Interrupt mask for DIE_OT_F.
+
+        b 1 1 IRQ_RTM_DATA_RDY_MSK
+        ! Interrupt mask for RTM_DATA_RDY.
+
+        b 2 2 IRQ_RTM_IN_CON_MEAS_MSK
+        ! Interrupt mask for RTM_IN_CON_MEAS.
+
+        b 3 3 IRQ_RTM_UPPER_MSK
+        ! Interrupt mask for RTM_UPPER.
+
+        b 4 4 IRQ_RTM_IGNORE_MSK
+        ! Interrupt mask for RTM_IGNORE.
+
+        b 5 5 IRQ_RTM_OVERRIDDEN_MSK
+        ! Interrupt mask for RTM_OVERRIDDEN.
+
+        b 6 6 IRQ_AUD_HSAB_SHCKT_MSK
+        ! Interrupt mask for AUD_HSAB_SHCKT.
+
+        b 7 7 IRQ_AUD_IHFD_SHCKT_MSK
+        ! Interrupt mask for AUD_IHFD_SHCKT.
+
+0x39 INT10MSK
+
+        b 0 0 IRQ_POK_NOP_MSK
+        ! Interrupt mask for POK_NOP.
+
+        b 1 1 IRQ_MIPI_LEN_ERR_MSK
+        ! Interrupt mask for MIPI_LEN_ERR.
+
+        b 2 2 IRQ_MIPI_RCV_ERR_MSK
+        ! Interrupt mask for MIPI_RCV_ERR.
+
+        b 3 3 IRQ_MIPI_BUSQ_RESP_MSK
+        ! Interrupt mask for MIPI_BUSQ_RESP.
+
+        b 4 4 IRQ_MIPI_BUSQ_POS_MSK
+        ! Interrupt mask for MIPI_BUSQ_POS.
+
+        b 5 5 IRQ_MIPI_EOT_MSK
+        ! Interrupt mask for MIPI_EOT.
+
+        b 6 6 IRQ_MIPI_XMT_END_MSK
+        ! Interrupt mask for MIPI_XMT_END.
+
+        b 7 7 IRQ_MIPI_INT_POS_MSK
+        ! Interrupt mask for MIPI_INT_POS.
+
+0x3a INT11MSK
+
+        b 0 0 IRQ_LOWBAT_MSK
+        ! Interrupt mask for LOWBAT.
+
+        b 1 1 IRQ_CSROVRI_MSK
+        ! Interrupt mask for CSROVRI.
+
+        b 2 2 IRQ_VSROVRI_MSK
+        ! Interrupt mask for VSROVRI.
+
+        b 3 3 IRQ_MSROVRI_MSK
+        ! Interrupt mask for MSROVRI.
+
+        b 4 4 IRQ_SDSR1OVRI_MSK
+        ! Interrupt mask for SDSR1OVRI.
+
+        b 5 5 IRQ_SDSR2OVRI_MSK
+        ! Interrupt mask for SDSR2OVRI.
+
+        b 6 6 IRQ_IOSR1OVRI_MSK
+        ! Interrupt mask for IOSR1OVRI.
+
+        b 7 7 IRQ_IOSR2OVRI_MSK
+        ! Interrupt mask for IOSR2OVRI.
+
+0x3b INT12MSK
+
+        b 0 0 IRQ_RESERVED_MSK
+        ! Interrupt mask for RESERVED.
+
+        b 1 1 IRQ_RFLDO_OVRI_MSK
+        ! Interrupt mask for RFLDO_OVRI.
+
+        b 2 2 IRQ_AUDLDO_OVRI_MSK
+        ! Interrupt mask for AUDLDO_OVRI.
+
+        b 3 3 IRQ_USBLDO_OVR_MSK
+        ! Interrupt mask for USBLDO_OVR.
+
+        b 4 4 IRQ_SDXLDO_OVRI_MSK
+        ! Interrupt mask for SDXLDO_OVRI.
+
+        b 5 5 IRQ_MICLDO_OVRI_MSK
+        ! Interrupt mask for MICLDO_OVRI.
+
+        b 6 6 IRQ_SIMLDO1_OVRI_MSK
+        ! Interrupt mask for SIMLDO1_OVRI.
+
+        b 7 7 IRQ_SIMLDO2_OVRI_MSK
+        ! Interrupt mask for SIMLDO2_OVRI.
+
+0x3c INT13MSK
+
+        b 0 0 IRQ_MMCLDO1_OVRI_MSK
+        ! Interrupt mask for MMCLDO1_OVRI.
+
+        b 1 1 IRQ_CAMLDO1_OVRI_MSK
+        ! Interrupt mask for CAMLDO1_OVRI.
+
+        b 2 2 IRQ_CAMLDO2_OVRI_MSK
+        ! Interrupt mask for CAMLDO2_OVRI.
+
+        b 3 3 IRQ_VIBLDO_OVRI_MSK
+        ! Interrupt mask for VIBLDO_OVRI.
+
+        b 4 4 IRQ_SDLDO_OVRI_MSK
+        ! Interrupt mask for SDLDO_OVRI.
+
+        b 5 5 IRQ_GPLDO1_OVRI_MSK
+        ! Interrupt mask for GPLDO1_OVRI.
+
+        b 6 6 IRQ_GPLDO2_OVRI_MSK
+        ! Interrupt mask for GPLDO2_OVRI.
+
+        b 7 7 IRQ_GPLDO3_OVRI_MSK
+        ! Interrupt mask for GPLDO3_OVRI.
+
+0x3d INT14MSK
+
+        b 0 0 IRQ_RFLDO_SHD_MSK
+        ! Interrupt mask for RFLDO_SHD.
+
+        b 1 1 IRQ_AUDLDO_SHD_MSK
+        ! Interrupt mask for AUDLDO_SHD.
+
+        b 2 2 IRQ_USBLDO_SHD_MSK
+        ! Interrupt mask for USBLDO_SHD.
+
+        b 3 3 IRQ_SDXLDO_SHD_MSK
+        ! Interrupt mask for SDXLDO_SHD.
+
+        b 4 4 IRQ_MICLDO_SHD_MSK
+        ! Interrupt mask for MICLDO_SHD.
+
+        b 5 5 IRQ_SIMLDO1_SHD_MSK
+        ! Interrupt mask for SIMLDO1_SHD.
+
+        b 6 6 IRQ_SIMLDO2_SHD_MSK
+        ! Interrupt mask for SIMLDO2_SHD.
+
+        b 7 7 IRQ_MMCLDO1_SHD_MSK
+        ! Interrupt mask for MMCLDO1_SHD.
+
+0x3e INT15MSK
+
+        b 0 0 IRQ_MMCLDO2_SHD_MSK
+        ! Interrupt mask for MMCLDO2_SHD.
+
+        b 1 1 IRQ_CAMLDO1_SHD_MSK
+        ! Interrupt mask for CAMLDO1_SHD.
+
+        b 2 2 IRQ_CAMLDO2_SHD_MSK
+        ! Interrupt mask for CAMLDO2_SHD.
+
+        b 3 3 IRQ_VIBLDO_SHD_MSK
+        ! Interrupt mask for VIBLDO_SHD.
+
+        b 4 4 IRQ_SDLDO_SHD_MSK
+        ! Interrupt mask for SDLDO_SHD.
+
+        b 5 5 IRQ_GPLDO1_SHD_MSK
+        ! Interrupt mask for GPLDO1_SHD.
+
+        b 6 6 IRQ_GPLDO2_SHD_MSK
+        ! Interrupt mask for GPLDO2_SHD.
+
+        b 7 7 IRQ_GPLDO3_SHD_MSK
+        ! Interrupt mask for GPLDO3_SHD.
+
+0x3f INT16MSK
+
+        b 0 0 IRQ_TCXLDO_OVRI_MSK
+        ! Interrupt mask for TCXLDO_OVRI.
+
+        b 1 1 IRQ_LVLDO1_OVRI_MSK
+        ! Interrupt mask for LVLDO1_OVRI.
+
+        b 2 2 IRQ_LVLDO2_OVRI_MSK
+        ! Interrupt mask for LVLDO2_OVRI.
+
+        b 3 3 IRQ_TCXLDO_SHD_MSK
+        ! Interrupt mask for TCXLDO_SHD.
+
+        b 4 4 IRQ_LVLDO1_SHD_MSK
+        ! Interrupt mask for LVLDO1_SHD.
+
+        b 5 5 IRQ_LVLDO2_SHD_MSK
+        ! Interrupt mask for LVLDO2_SHD.
+
+        b 6 6 IRQ_VBOVRV_MSK
+        ! Interrupt mask for VBOVRV.
+
+        b 7 7 IRQ_VBOVRI_MSK
+        ! Interrupt mask for VBOVRI.
+
+0x40 MBCCTRL1
+
+  b 0 2 TTR_2_0
+
+  b 3 5 TCH_2_0
+
+  b 6 7 USB_CHG_PORT_SEL
+
+0x41 MBCCTRL2
+! Contains bits for software controlled charger timer.
+
+  b 0 1 SW_EXP_SEL
+  ! Selects the charge timer time. Valid values are:
+  ! 0 (0b00) - 4s
+  ! 1 (0b01) - 8s
+  ! 2 (0b10) - 16s
+  ! 3 (0b11) - 32s
+  ! Note that the vendor/downstream kernel has incorrect definitions
+  ! for these registers and claims that 16s is equivalent to 0x10,
+  ! and 32s is equivalent to 0x11. This seems to be an error as bit 5
+  ! is reserved and does not stick when set, suggesting that someone
+  ! misread the bit values as hex values.
+
+  b 2 2 SW_TMR_EN
+
+  b 3 3 SW_TMR_CLR
+
+0x42 MBCCTRL3
+
+  b 0 0 USB_HOSTEN
+
+  b 1 1 HW_MC_ST_EN
+
+  b 2 2 SWUP
+
+0x43 MBCCTRL4
+
+0x44 MBCCTRL5
+
+  b 0 0 BC12_EN
+  ! Enable (0) or disable (1) BC 1.2 charging.
+  ! ...or at least, that's how they're set when cable connect/disconnect
+  ! is detected, respectively. Might be related to how the AP itself
+  ! handles BC.
+
+  b 2 2 USB_DET_LDO_EN
+
+  b 4 5 CHP_TYPE
+  ! Charger type. Valid values are:
+  ! 0 - none
+  ! 1 - SDP
+  ! 2 - CDP
+  ! 3 - DCP
+
+0x45 MBCCTRL6
+
+  b 0 4 VFLOATMAX
+
+  b 5 5 VFLOATMAX_LOCK
+
+  b 6 7 RESERVED
+
+0x46 MBCCTRL7
+
+  b 0 4 VFLOAT
+
+0x47 MBCCTRL8
+
+0x48 MBCCTRL9
+
+  b 0 0 EOC_DET_MODE
+
+  b 1 1 SW_EOC
+
+  b 2 2 HW_EOC
+
+  b 3 3 FG_EOC
+
+  b 4 6 HW_EOC_DEB
+
+  b 7 7 HW_EOC_SRT_DEB
+
+0x49 MBCCTRL10
+
+  b 0 3 CHG_CURR
+  ! Charging current. Values are different based on
+  ! whether ACLD is enabled or not (see PMU_REG_OTG_BOOSTCTRL3 & ACLD_ENABLE_MASK).
+  ! See bcmpmiu59xxx-accy-core.c bcmpmu_pmu_curr_acld_table and bcmpmu_pmu_curr_table for the mA current.
+
+0x4a MBCCTRL11
+
+0x4b MBCCTRL12
+
+0x4c MBCCTRL13
+
+0x4d MBCCTRL14
+
+0x4e MBCCTRL15
+
+0x4f MBCCTRL16
+
+0x50 MBCCTRL17
+
+0x51 MBCCTRL18
+
+0x52 MBCCTRL19
+
+0x53 MBCCTRL20
+
+0x54 MBCCTRL21
+
+0x55 MBCCTRL22
+
+0x56 MBCCTRL23
+
+0x57 MBCCTRL24
+
+0x58 MBCCTRL25
+
+0x59 MBCCTRL26
+
+0x5a MBCCTRL27
+
+0x5b MBCCTRL28
+
+0x5c MBCCTRL29
+
+  b 0 3 MBC_CC_BOOST
+
+0x5d MBCCTRL30
+
+0x5e MBCCTRL31
+
+0x5f MBCCTRL32
+
+0x60 RFLDOPMCTRL1
+
+0x61 RFLDOPMCTRL2
+
+0x62 CAMLDO1PMCTRL1
+
+0x63 CAMLDO1PMCTRL2
+
+0x64 CAMLDO2PMCTRL1
+
+0x65 CAMLDO2PMCTRL2
+
+0x66 SIMLDO1PMCTRL1
+
+0x67 SIMLDO1PMCTRL2
+
+0x68 SIMLDO2PMCTRL1
+
+0x69 SIMLDO2PMCTRL2
+
+0x6a SDLDOPMCTRL1
+
+0x6b SDLDOPMCTRL2
+
+0x6c SDXLDOPMCTRL1
+
+0x6d SDXLDOPMCTRL2
+
+0x6e MMCLDO1PMCTRL1
+
+0x6f MMCLDO1PMCTRL2
+
+0x70 MMCLDO2PMCTRL1
+
+0x71 MMCLDO2PMCTRL2
+
+0x72 AUDLDOPMCTRL1
+
+0x73 AUDLDOPMCTRL2
+
+0x74 MICLDOPMCTRL1
+
+0x75 MICLDOPMCTRL2
+
+0x76 USBLDOPMCTRL1
+
+0x77 USBLDOPMCTRL2
+
+0x78 VIBLDOPMCTRL1
+
+0x79 VIBLDOPMCTRL2
+
+0x7a IOSR1PMCTRL1
+
+0x7b IOSR1PMCTRL2
+
+0x7c IOSR2PMCTRL1
+
+0x7d IOSR2PMCTRL2
+
+0x7e CSRPMCTRL1
+
+0x7f CSRPMCTRL2
+
+0x80 CSRPMCTRL3
+
+0x81 CSRPMCTRL4
+
+0x82 SDSR1PMCTRL1
+
+0x83 SDSR1PMCTRL2
+
+0x84 SDSR1PMCTRL3
+
+0x85 SDSR1PMCTRL4
+
+0x86 SDSR2PMCTRL1
+
+0x87 SDSR2PMCTRL2
+
+0x88 SDSR2PMCTRL3
+
+0x89 SDSR2PMCTRL4
+
+0x8a MMSRPMCTRL1
+
+0x8b MMSRPMCTRL2
+
+0x8c MMSRPMCTRL3
+
+0x8d MMSRPMCTRL4
+
+0x8e VSRPMCTRL1
+
+0x8f VSRPMCTRL2
+
+0x90 VSRPMCTRL3
+
+0x91 VSRPMCTRL4
+
+0x92 SRGRP1
+
+0x93 SRGRP2
+
+0x94 SRGRP3
+
+0x95 SRGRP4
+
+0x96 RFLDOCTRL
+
+0x97 CAMLDO1CTRL
+
+0x98 CAMLDO2CTRL
+
+0x99 SIMLDO1CTRL
+
+0x9a SIMLDO2CTRL
+
+0x9b SDLDOCTRL
+
+0x9c SDXLDOCTRL
+
+0x9d MMCLDO1CTRL
+
+0x9e MMCLDO2CTRL
+
+0x9f AUDLDOCTRL
+
+0xa0 MICLDOCTRL
+
+0xa1 USBLDOCTRL
+
+0xa2 VIBLDOCTRL
+
+0xa3 PWR_GRP_DLY
+
+0xa4 SRCTRL1
+
+0xa5 SRCTRL2
+
+0xa6 SRCTRL3
+
+0xa7 SRCTRL4
+
+0xa8 SRCTRL5
+
+0xa9 SRCTRL6
+
+0xaa SRCTRL7
+
+0xab SRCTRL8
+
+0xac SRCTRL9
+
+0xad SRCTRL10
+
+0xae SRCTRL11
+
+0xaf SRCTRL12
+
+0xb0 SRCTRL13
+
+0xb1 SRCTRL14
+
+0xb2 SRCTRL15
+
+0xb3 SRCTRL16
+
+0xb4 SRCTRL17
+
+0xb5 SRCTRL18
+
+0xb6 SRCTRL19
+
+0xb7 SRCTRL20
+
+0xb8 SRCTRL21
+
+0xb9 CSRVOTRIM
+
+0xba IOSR1VOTRIM
+
+0xbb IOSR2VOTRIM
+
+0xbc SDSR1VOTRIM
+
+0xbd SDSR2VOTRIM
+
+0xbe MMSRVOTRIM
+
+0xbf VSRVOTRIM
+
+0xc0 CSRVOUT1
+
+0xc1 CSRVOUT2
+
+0xc2 CSRVOUT3
+
+0xc3 IOSR1VOUT1
+
+0xc4 IOSR1VOUT2
+
+0xc5 IOSR1VOUT3
+
+0xc6 IOSR2VOUT1
+
+0xc7 IOSR2VOUT2
+
+0xc8 IOSR2VOUT3
+
+0xc9 MMSRVOUT1
+
+0xca MMSRVOUT2
+
+0xcb MMSRVOUT3
+
+0xcc SDSR1VOUT1
+
+0xcd SDSR1VOUT2
+
+0xce SDSR1VOUT3
+
+0xcf SDSR2VOUT1
+
+0xd0 SDSR2VOUT2
+
+0xd1 SDSR2VOUT3
+
+0xd2 VSRVOUT1
+
+0xd3 VSRVOUT2
+
+0xd4 VSRVOUT3
+
+0xe9 ENV1
+
+  b 0 0 P_MBWV_MASK
+  b 1 1 P_MBWV_DELTE
+  b 2 2 P_ERC
+  b 3 3 P_MBMC
+  b 4 4 P_MBOV
+  b 5 5 P_MBUV
+  b 6 6 P_BATIDWV
+  b 7 7 P_BBLOWB
+
+0xea ENV2
+
+  b 0 0 P_USBPD_ENV
+  b 1 1 USBPD_USBDET
+  b 2 2 P_UBPD_INT
+  b 3 3 P_UBPD_CHG
+  b 4 4 USB_PORT_DISABLED
+  b 5 5 P_UBMBC
+  b 6 6 P_USBOV
+  b 7 7 USB_VALID
+
+0xeb ENV3
+
+  b 0 0 TRUE_TF
+  b 1 1 P_MBC_CV
+  b 2 2 CV_TRIP
+  b 3 3 CV_TMR_EXP
+  b 4 4 FG_EOC
+  b 5 5 HW_EOC
+  b 6 6 MB_EOC
+  b 7 7 MBMC_ACTIVE
+
+0xec ENV4
+
+  b 0 0 VBUS_STATUS
+  b 1 1 SESS_STATUS
+  b 3 5 ID_CODE
+  ! microUSB ID pin level. Values are:
+  ! 0x0 - ID_GROUND (ID pin connected to ground; USB OTG cable; min 220kOhm)
+  ! 0x1 - B_DEVICE
+  ! 0x2 - ID_RESERVED1
+  ! 0x3 - ID_RID_A - "ID_A" ACA connection from BC1.2 spec: "ACA ID pull-down, OTG device as A-device" (122-126kOhm)
+  ! 0x4 - ID_RID_B - "ID_B" ACA connection from BC1.2 spec: "ACA ID pull-down, OTG device as B-device, can’t connect" (67-69kOhm)
+  ! 0x5 - ID_RID_C - "ID_B" ACA connection from BC1.2 spec: "ACA ID pull-down, OTG device as B-device, can connect" (36-37kOhm)
+  ! 0x6 - ID_RESERVED2
+  ! 0x7 - ID_FLOAT (ID pin floating; standard device/charging cable; max 1kOhm)
+  ! TODO - the ohm values are taken from the BC1.2 spec, the BCM590xx could have different tolerances.
+
+0xed ENV5
+
+  b 0 0 P_MBPD
+  ! Whether or not the battery is present.
+  ! 0 if the battery is present, 1 otherwise.
+  ! (source: bcmpmu-fg.c bcmpmu_fg_is_batt_present)
+
+  b 1 1 P_MBTEMPLOW
+  b 2 2 P_MBTEMPHIGH
+  b 3 3 P_PONKEYB
+  b 4 4 P_AUXON
+  b 5 5 P_CHIP_TOOHOT
+  b 7 7 P_MBPD_LONG
+
+0xee ENV6
+
+  b 0 0 MBCERROR
+  b 1 1 OFF_VBUSB
+  ! Whether VBUS boost is on or off. Controlled by OTGCTRL1_OFFVBUSB. TODO values
+  b 2 2 OTG_SHUTDOWNB
+  ! Typo'd as "OTG_SHUTDOENB" in downstream.
+  b 3 3 ADP_SHUTDOWNB
+  b 4 4 TCH_EXP
+  b 5 5 SW_TMR_EXP
+  b 6 6 HW_TTR_EXP
+  b 7 7 HW_TCH_EXP
+
+0xef ENV7
+
+  b 0 1 OTG_VBUS_STAT
+  ! Comprises of two values: STAT1_ENV and STAT2_ENV.
+  b 2 2 P_LOWBAT
+  b 3 3 CANT_WAKEUP_BY_CHG
+  b 4 4 DIS_CHG_XTAL_FAIL
+  b 5 5 SHDWN_ENV_XTAL
+  b 6 6 SW_RST_SHDWN
+  b 7 7 BB_SHSWN
+
+0xf0 ENV8
+
+  b 0 0 UBPD_WAKE
+  b 1 1 GBAT_PLUGIN
+  b 2 2 RTC_ALARM
+  b 3 3 AUXON_WAKE
+  b 4 4 POK_WAKE
+  b 5 5 POK_RESTART_WAKE
+  b 6 6 SMPL_WAKE
+  b 7 7 SW_RESTART_WAKE
+
+0xf1 ENV9
+
+  b 0 0 P_MBUV
+  b 1 1 P_THSD
+  b 2 2 MBWV_SHDWN
+  b 3 3 SYS_WDT_EXP
+  b 4 4 SW_SHDWN_CMD
+  b 5 5 POK_PRESS_SHDWN
+  b 6 6 RESTART_SHDWN
+  b 7 7 SR_OVERI_SHDWN

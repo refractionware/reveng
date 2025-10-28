@@ -1,0 +1,3 @@
+# Miscelaneous dfmt docs
+
+This directory contains register documentation for various subdevices. These files might get moved out of this repo at some point, but for now they remain here...

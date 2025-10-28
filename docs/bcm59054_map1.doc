@@ -1,0 +1,940 @@
+fmt doc
+type i2c
+base_addr 0
+size 246
+addr_bits 8
+val_bits 8
+--- header_end ---
+0x0 PWMLEDCTRL1
+
+0x1 PWMLEDCTRL2
+
+0x2 PWMLEDCTRL3
+
+0x3 PWMLEDCTRL4
+
+0x4 PWMLEDCTRL5
+
+0x5 PWMLEDCTRL6
+
+0x6 PWMLEDCTRL7
+
+0x7 PWMLEDCTRL8
+
+0x8 PASRCTRL1
+
+0x9 PASRCTRL2
+
+0xa PASRCTRL3
+
+0xb PASRCTRL4
+
+0xc PASRCTRL5
+
+0xd PASRCTRL6
+
+0xe PASRCTRL7
+
+0xf PASRCTRL8
+
+0x16 LVLDO1PMCTRL1
+
+0x17 LVLDO1PMCTRL2
+
+0x18 LVLDO2PMCTRL1
+
+0x19 LVLDO2PMCTRL2
+
+0x1a GPLDO1CTRL
+
+0x1b GPLDO2CTRL
+
+0x1c GPLDO3CTRL
+
+0x1d TCXLDOCTRL
+
+0x1e LVLDO1CTRL
+
+0x1f LVLDO2CTRL
+
+0x20 ADCCTRL1
+! ADC controls for RTM (Real-Time Measurement) read mode.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+  b 0 1 RTM_MAX_RST_CNT
+  ! Max reset count for RTM mode. Valid values are:
+  ! 0 (0b00) - 1
+  ! 1 (0b01) - 3
+  ! 2 (0b10) - 5
+  ! 3 (0b11) - 7
+
+  b 2 2 RTM_START
+  ! When set to 1, starts the RTM reading.
+
+  b 3 3 RTM_CONVERSION
+  ! Enable (0) or disable (1) RTM mode. Prerequisite for performing an RTM read.
+
+  b 4 7 RTM_CHANN
+  ! Channel to read in RTM mode.
+
+0x21 ADCCTRL2
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+  b 5 5 GSM_DEBOUNCE
+  ! If set to 1, enables ADC burst mode. Unclear what it does,
+  ! the function is never called in downstream.
+  ! (Found in BCM59055 driver, untested on BCM59054!)
+
+  b 0 4 RTM_DLY
+  ! RTM read delay. Valid values:
+  ! 0  (0b00000) - 0ns
+  ! 1  (0b00001) - 31.25ns
+  ! 2  (0b00010) - 62.50ns
+  ! 3  (0b00011) - 93.75ns
+  ! 4  (0b00100) - 125ns
+  ! 5  (0b00101) - 156.25ns
+  ! 6  (0b00110) - 187.50ns
+  ! 7  (0b00111) - 218.75ns
+  ! 8  (0b01000) - 250ns
+  ! 9  (0b01001) - 281.25ns
+  ! 10 (0b01010) - 312.50ns
+  ! 11 (0b01011) - 343.75ns
+  ! 12 (0b01100) - 375ns
+  ! 13 (0b01101) - 406.25ns
+  ! 14 (0b01110) - 437.50ns
+  ! 15 (0b01111) - 468.75ns
+  ! 16 (0b10000) - 500ns
+  ! 17 (0b10001) - 531.25ns
+  ! 18 (0b10010) - 562.50ns
+  ! 19 (0b10011) - 593.75ns
+  ! 20 (0b10100) - 625ns
+  ! 21 (0b10101) - 656.25ns
+  ! 22 (0b10110) - 687.50ns
+  ! 23 (0b10111) - 718.75ns
+  ! 24 (0b11000) - 750ns
+  ! 25 (0b11001) - 781.25ns
+  ! 26 (0b11010) - 812.50ns
+  ! 27 (0b11011) - 843.75ns
+  ! 28 (0b11100) - 875ns
+  ! 29 (0b11101) - 906.25ns
+  ! 30 (0b11110) - 937.50ns
+  ! 31 (0b11111) - 968.75ns
+  ! (Found in BCM59055 driver, untested on BCM59054!)
+
+0x22 ADCCTRL3
+! VMBAT ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x23 ADCCTRL4
+! VMBAT ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x24 ADCCTRL5
+! VBBAT ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x25 ADCCTRL6
+! VBBAT ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x26 ADCCTRL7
+! Reserved ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+0x27 ADCCTRL8
+! Reserved ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+0x28 ADCCTRL9
+! VBUS ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x29 ADCCTRL10
+! VBUS ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x2a ADCCTRL11
+! IDIN ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x2b ADCCTRL12
+! IDIN ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x2c ADCCTRL13
+! NTC ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x2d ADCCTRL14
+! NTC ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x2e ADCCTRL15
+! BSI ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x2f ADCCTRL16
+! BSI ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x30 ADCCTRL17
+! BOM ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x31 ADCCTRL18
+! BOM ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x32 ADCCTRL19
+! 32KTEMP ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x33 ADCCTRL20
+! 32KTEMP ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x34 ADCCTRL21
+! PATEMP ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x35 ADCCTRL22
+! PATEMP ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x36 ADCCTRL23
+! ALS ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x37 ADCCTRL24
+! ALS ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x38 ADCCTRL25
+! DIE TEMP ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x39 ADCCTRL26
+! DIE TEMP ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x3a ADCCTRL27
+! RTM ADC, first register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 1 DATA_MSB
+    ! Top 2 bits of ADC data.
+
+    b 2 2 READ_INVALID
+    ! If 1, then the ADC read is invalid.
+
+0x3b ADCCTRL28
+! RTM ADC, second register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+    b 0 7 DATA_LSB
+    ! Lower 8 bits of ADC data.
+
+0x3c ADCCTRL29
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+0x3d ADCCTRL30
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/ADC
+
+0x40 OTGCTRL1
+
+  b 0 0 EN_VBUS_PULSE
+  ! See BCMPMU_(USB_)CTRL_SRP_VBUS_PULSE in downstream.
+
+  b 1 1 EN_PD_SRP
+  ! See BCMPMU_(USB_)CTRL_DISCHRG_VBUS in downstream.
+
+  b 2 2 OFFVBUSB
+  ! Controls whether VBUS boost is on (1) or off (0).
+  ! The actual status is present in ENV6_OFF_VBUSB.
+  ! (source: bcmpmu59xxx-accy-core.c line 568)
+
+  b 3 3 ID_DET_EN
+
+  b 4 4 EN_SESS_VALID
+
+  b 5 5 EN_VBUS_RBUS
+
+  b 6 6 OTG_SHUTDOWNB
+  ! Controls whether the OTG block is on (1) or off (0).
+  ! The actual status is present in ENV6_OTG_SHUTDOWNB.
+  ! (source: bcmpmu59xxx-accy-core.c line 567)
+
+  b 7 7 EN_SRP_COMPS
+
+0x41 OTGCTRL2
+
+  b 0 1 VBUS_ADP_COMP_DB
+  ! See BCMPMU_CTRL_SET_VBUS_DEB_TIME in downstream.
+
+  b 2 2 VBUS_ADP_RBUS_SEL
+
+  b 3 3 ADP_PRB_CYCLE_TIME
+
+  b 4 4 ADP_SNS
+
+0x42 OTGCTRL3
+
+0x43 OTGCTRL4
+
+0x44 OTGCTRL5
+
+0x45 OTGCTRL6
+
+0x46 OTGCTRL7
+
+0x47 OTGCTRL8
+
+  b 7 7 ID_METHOD
+  ! Suspected based on comment in downstream (arch/arm/mach-java/board-bcm59xxx_ss_baffinlite.c):
+  ! "ID_METHOD=0 prevents leakage from ID detection".
+  ! The only bit that is 0 in downstream but 1 on mainline in these 3 registers is this bit.
+
+0x48 OTGCTRL9
+
+0x49 OTGCTRL10
+
+0x4a OTGCTRL11
+
+  b 0 0 ADP_PRB
+  ! Enable or disable ADP (Attach Detection Protocol) probe.
+  ! See OTGCTRL11_ADP_SNS /  in downstream.
+
+  b 1 2 ADP_PRB_MODE
+  ! On BCM59055 a value of 1 in this register enables ADP sense mode; see BCMPMU_CTRL_START_STOP_ADP_SENS_PRB in downstream. Unsure
+
+0x4b OTGCTRL12
+
+  b 0 0 EN_ADP_PRB_COMPS
+
+  b 1 1 EN_ADP_SNS_COMP
+
+  b 3 3 ADP_SHUTDOWNB
+
+  b 5 6 ADP_COMP_METHOD
+
+  b 7 7 ADP_THR_CTRL
+
+0x4c TCTRL1
+
+0x4d TCTRL2
+
+0x4e TCTRL3
+
+0x4e OTG_BOOSTCTRL3
+
+  b 4 4 ACLD_ENABLE
+
+0x4f TCTRL4
+
+0x50 OTG_STS1
+
+  b 3 3 ADP_ATTACH_DET
+
+  b 4 4 ADP_SNS_DET
+
+0x51 OTG_STS2
+
+0x52 OTG_STS3
+
+0x53 OTG_STS4
+
+0x54 OTG_STS5
+
+0x55 OTG_STS6
+
+0x56 OTGCTRL13
+
+0x57 GPLDO1PMCTRL1
+
+0x58 GPLDO1PMCTRL2
+
+0x59 GPLDO2PMCTRL1
+
+0x5a GPLDO2PMCTRL2
+
+0x5b GPLDO3PMCTRL1
+
+0x5c GPLDO3PMCTRL2
+
+0x5d TCXLDOPMCTRL1
+
+0x5e TCXLDOPMCTRL2
+
+0x60 IHFTOP
+
+  b 0 0 IHF_IDDQ
+
+0x61 IHFCLK
+
+  b 2 2 IHFBIASEN
+
+  b 3 3 PUP
+
+0x62 IHFLDO
+
+  b 0 0 PUP
+
+0x63 IHFPOP
+
+  b 0 1 TIMECTL
+
+  b 2 2 EN
+
+  b 3 3 PUP
+
+  b 5 5 BYPASS
+
+  b 6 6 IHFAUTO_SEQ
+
+0x64 IHFRCCAL
+
+  b 0 0 PUP
+
+0x65 IHFPSR1
+
+  b 0 0 PSRCAL_PUP
+
+0x68 IHFFF
+
+  b 0 0 PUP
+
+0x69 IHFALC1
+
+  b 0 0 IHF_ALC_PUP
+
+  b 2 2 IHFALC_BYP
+
+  b 2 2 BYP
+
+  b 3 3 IHF_ALC_VBAT_REF
+
+0x6a IHFALC2
+
+  b 0 1 RAMP_DOWN_CTRL
+
+  b 2 3 RAMP_UP_CTRL
+
+  b 4 7 THLD
+
+0x6c IHFRAMP
+
+  b 0 0 PUP
+
+  b 3 3 DRVCLAMP_DIS
+
+  b 4 4 IHFCAL_SEL
+
+0x6d HIGH_GAIN_MODE
+
+  b 3 3 IHFPGA1_6DBGAIN_SHIFT
+
+0x6e IHFPGA2_GAIN
+
+  b 0 5 
+
+  b 6 7 IHFPGA2_MUX_MODE
+
+0x6f IHFLF
+
+  b 0 0 PUP
+
+0x70 IHFCMPPD
+
+  b 0 0 PUP
+
+0x71 IHFPWRDRV
+
+  b 0 0 PUP
+
+0x72 IHFFB
+
+  b 0 0 PUP
+
+0x7a IHF_NGTHRESH
+
+  b 0 2 THLD
+
+0x7b IHF_NGMISC
+
+  b 3 3 NGMISC_IHFNG_PUP
+
+0x7c IHF_HS_TST
+
+  b 1 1 HS_SC_EDISABLE
+
+  b 2 2 IHF_SC_EDISABLE
+
+0x80 HSCP1
+
+0x81 HSCP2
+
+0x82 HSCP3
+
+0x83 HSDRV
+
+  b 4 4 DISSC
+
+0x86 HSPGA1
+
+0x87 HSPGA2
+
+0x88 HSPGA3
+
+0x8a HSPUP1
+
+  b 2 2 CP_CG_SEL
+
+  b 4 4 IDDQ_PWRDN
+
+0x8b HSPUP2
+
+  b 6 6 HS_PWRUP
+
+0xa0 FGCTRL1
+
+  b 0 0 FGHOSTEN
+
+  b 1 1 FGCHP
+
+  b 2 2 FGOVLP
+
+  b 3 5 FGCHPDIV
+
+  b 6 6 FGSYNCMODE
+
+  b 7 7 FGMODON
+
+0xa1 FGCTRL2
+
+  b 0 0 FGTRIM
+
+  b 1 1 FGCAL
+
+  b 2 2 LONGCAL
+
+  b 3 3 FG1PTCAL
+
+  b 4 4 FGRESET
+
+  b 5 5 FGFRZREAD
+  ! If set to 1, freezes the coloumb counter for reading.
+  ! (source: bcmpmu_fg_freeze_read)
+
+  b 6 6 FGFRZSMPL
+
+  b 7 7 FGFORCECAL
+
+0xa2 FGOPMODCTRL
+
+  b 0 0 OPMODCTRL0
+
+  b 1 1 OPMODCTRL1
+
+  b 2 2 OPMODCTRL2
+
+  b 3 3 OPMODCTRL3
+
+  b 4 4 FGSYNCMODE
+
+  b 5 5 FGMODEON
+
+  b 6 7 RESERVED
+
+0xa3 FGOCICCTRL
+
+  b 0 1 FGCOMBRATE
+
+  b 2 2 FGSYNC_PLLOFF
+
+0xa4 FGOFFSET_TRIM
+
+  b 0 7 7_0
+
+0xa5 FGGAIN_TRIM
+
+  b 0 7 7_0
+
+0xa6 FGACCM1
+
+  b 0 1 FGACCM_25_24
+
+  b 2 6 RESERVED
+
+  b 7 7 FGRDVALID
+
+0xa7 FGACCM2
+
+  b 0 7 FGACCM_23_16
+
+0xa8 FGACCM3
+
+  b 0 7 FGACCM_15_8
+
+0xa9 FGACC4
+
+  b 0 7 FGACCM4_FGACCM_7_0
+
+0xaa FGCNT1
+
+  b 0 3 FGCNT_11_8
+
+  b 0 3 RESERVED
+
+0xab FGCNT2
+
+  b 0 7 FGCNT_7_0
+
+0xac FGSLEEPCNT1
+
+  b 0 7 FGSLEEPCNT_15_8
+
+0xad FGSLEEPCNT2
+
+  b 0 7 FGSLEEPCNT_7_0
+
+0xae FGSMPL1
+
+  b 0 7 FGSMPL_15_8
+
+0xaf FGSMPL2
+
+  b 0 7 FGSMPL_7_0
+
+0xb0 FGSMPL3
+
+  b 0 7 FGSMPL_CAL_15_8
+
+0xb1 FGSMPL4
+
+  b 0 7 FGSMPL_CAL_7_0
+
+0xb2 FGSMPL5
+
+  b 0 7 FGSMPLB_15_8
+
+0xb3 FGSMPL6
+
+  b 0 7 FGSMPLB_7_0
+
+0xb4 FGOFFSET1
+
+  b 0 7 FGOFFSET_15_8
+
+0xb5 FGOFFSET2
+
+  b 0 7 FGOFFSET_7_0
+
+0xb6 FGBATCAL1
+
+  b 0 1 FGVMBAT_9_8
+
+0xb7 FGBATCAL2
+
+  b 0 7 FGVMBAT_7_0
+
+0xb8 FGGNRL1
+
+  b 0 7 7_0
+
+0xb9 FGGNRL2
+
+  b 0 7 7_0
+
+0xba FGGNRL3
+
+  b 0 7 7_0
+
+0xbb FGTRIMGN1_1
+
+  b 0 5 FGPOINT1_13_8
+
+0xbc FGTRIMGN1_2
+
+  b 0 7 FGPOINT1_7_0
+
+0xbd FGTRIMGN2_1
+
+  b 0 5 FGPOINT2_13_8
+
+0xbe FGTRIMGN2_2
+
+  b 0 7 FGTRIMGN2_1_FGPOINT2_7_0
+
+0xbf FG_EOC_TH
+
+  b 0 7 7_0
+
+0xc8 CMPCTRL1
+
+0xc9 CMPCTRL2
+
+0xca CMPCTRL3
+
+0xcb CMPCTRL4
+
+0xcc CMPCTRL5
+! NTC Hot Temperature Comparator
+
+  b 0 7 NTCHT_RISE_7_0
+
+0xcd CMPCTRL6
+! NTC Hot Temperature Comparator
+
+  b 0 7 NTCHT_FALL_7_0
+
+0xce CMPCTRL7
+! NTC Cold Temperature Comparator
+
+  b 0 7 NTCCT_RISE_7_0
+
+0xcf CMPCTRL8
+! NTC Cold Temperature Comparator
+
+  b 0 7 NTCCT_FALL_7_0
+
+0xd0 CMPCTRL9
+! NTC Hot/Cold Temperature Comparator bits 9 and 8
+
+  b 0 1 NTCCT_FALL_9_8
+
+  b 2 3 NTCCT_RISE_9_8
+
+  b 4 5 NTCHT_FALL_9_8
+
+  b 6 7 NTCHT_RISE_9_8
+
+0xd1 CMPCTRL10
+
+0xd2 CMPCTRL11
+
+0xd3 CMPCTRL12
+
+0xd4 CMPCTRL13
+
+0xd5 CMPCTRL14
+
+0xd6 CMPCTRL15
+
+0xd7 CMPCTRL16
+
+0xd8 CMPCTRL17
+
+0xd9 CMPCTRL18
+
+0xda CMPCTRL19
+
+0xdb CMPCTRL20
+
+0xdc CMPCTRL21
+
+0xe0 RTCSC
+! RTC seconds register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 5 RTCSC
+    ! Current second, from 0 to 59.
+
+0xe1 RTCMN
+! RTC minutes register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 5 RTCMN
+    ! Current minute of the hour, from 0 to 59.
+
+0xe2 RTCHR
+! RTC hours register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 4 RTCHR
+    ! Current hour of the day, from 0 to 23.
+
+0xe3 RTCWD
+! Weekday register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 2 RTCWD
+    ! Day of week, from 0 to 6.
+
+0xe4 RTCDT
+! Day of month register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 4 RTCDT
+    ! Day of month, starting from 1. Sets itself to 0 on reset.
+
+0xe5 RTCMT_WD
+! Month register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 3 RTCMT_WD
+    ! Number of the month, from 1 to 12.
+
+0xe6 RTCYR
+! Year register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 7 RTCYR
+    ! Amount of years since 2000 (0 = 2000, 1 = 2001, etc.)
+
+0xe7 RTCSC_A1
+! Alarm seconds register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 5 RTCSC_A1
+    ! Seconds value for the alarm, from 0 to 59.
+
+0xe8 RTCMN_A1
+! Alarm minutes register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 5 RTCMN_A1
+    ! Minute of the hour for the alarm, from 0 to 59.
+
+0xe9 RTCHR_A1
+! Alarm hour register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 4 RTCHR_A1
+    ! Hour of the day for the alarm, from 0 to 23.
+
+0xea RTCWD_A1
+! Alarm weekday register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 2 RTCWD_A1
+    ! Day of week for the alarm, from 0 to 6.
+
+0xeb RTCDT_A1
+! Alarm day register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 4 RTCDT
+    ! Day of month, starting from 1.
+
+0xec RTCMT_A1
+! Alarm month register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 3 RTCMT_WD
+    ! Number of the month, from 1 to 12.
+
+0xed RTCYR_A1
+! Alarm year register.
+! See https://wiki.dissonant.dev/wiki/Mainline:Broadcom_Kona/BCM590xx/RTC
+
+    b 0 7 RTCYR
+    ! Amount of years since 2000 (0 = 2000, 1 = 2001, etc.)
+
+0xee RTC_EXTRA
+
+0xef RTC_C2C1_XOTRIM
+
+0xf4 RTC_CALIB1
+
+0xf5 RTC_CALIB2
+
+0xf6 RTC_CALIB3
